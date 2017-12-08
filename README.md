@@ -3,13 +3,13 @@
 #### Instalação
 
 ```
-pip install cartola-fc-stats
+pip install cartola-stats-cli
 ```
 
 #### Documentação
 
   - ```-t10, --top10```: Lista um TOP 10 com os maiores pontuadores
 
-  - ```-bot, --bestofposition```: Recebe um argumento (a posição) e retorna o jogador que mais pontou naquela determina posição.
+  - ```-bop, --bestofposition```: Recebe um argumento (a posição) e retorna o jogador que mais pontou naquela determina posição.
 
   - ```-tp, --tposition```: Lista os jogadores que mais pontuarem de cada posição.

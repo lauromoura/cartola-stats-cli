@@ -1,8 +1,8 @@
 from setuptools import setup
 
 setup(
-    name='cartolastats',
-    version='0.1.2',
+    name='cartola-stats-cli',
+    version='0.1.0',
     url='https://github.com/werberth/cartola-fc-stats',
     license='MIT License',
     author='werberth Vinícius',
@@ -11,7 +11,7 @@ setup(
     description='CLI with data analysis of the game Cartola FC',
     packages=['cartolastats'],
     entry_points = {
-        "console_scripts": ['cartolastats = cartolastats.cartolastats:main']
+        "console_scripts": ['cartola-stats-cli = cartolastats.cartolastats:main']
         },
     include_package_data=True,
     package_data={
