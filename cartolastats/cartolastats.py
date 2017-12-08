@@ -1,11 +1,13 @@
 import argparse
 import pandas as pd
+import os
 
-# patidas 
-resultados = pd.read_csv('cartola_csv/2016_scouts.csv').sort_index()
-jogadores = pd.read_csv('cartola_csv/2016_atletas.csv').sort_index()
-posicoes = pd.read_csv('cartola_csv/posicoes.csv')
-clubes = pd.read_csv('cartola_csv/2016_clubes.csv')
+BASE_DIR = os.path.dirname(os.path.realpath(__file__))
+
+resultados = pd.read_csv(os.path.join(BASE_DIR, 'cartola_csv/2016_scouts.csv')).sort_index()
+jogadores = pd.read_csv(os.path.join(BASE_DIR, 'cartola_csv/2016_atletas.csv')).sort_index()
+posicoes = pd.read_csv(os.path.join(BASE_DIR, 'cartola_csv/posicoes.csv'))
+clubes = pd.read_csv(os.path.join(BASE_DIR, 'cartola_csv/2016_clubes.csv'))
 
 resultados.rename(columns={'pontos_num': 'pontuacao' , 'media_num': 'media',
                            'preco_num': 'preco', 'variacao_num': 'variacao'}, inplace=True)
@@ -86,7 +88,7 @@ def main():
     )
 
     parser.add_argument(
-        '-bot', '--bestofposition',
+        '-bop', '--bestofposition',
         type=str, 
         help="selecting the player of a certain position \
             that had the highest total score."
@@ -108,6 +110,3 @@ def main():
         get_best_player_of(args.bestofposition)
     else:
         print('Invalid command!')
-
-if __name__ == '__main__':
-    main()
