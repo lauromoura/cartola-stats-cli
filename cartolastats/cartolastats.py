@@ -80,21 +80,22 @@ def main():
         prog='Cartola_Stats',
         description='CLI with data analysis of the game Cartola FC.'
     )
+    group = parser.add_mutually_exclusive_group()
 
-    parser.add_argument(
+    group.add_argument(
         '-t10', '--top10',
         action='store_true',
         help="Listing of the best players of each position"
     )
 
-    parser.add_argument(
+    group.add_argument(
         '-bop', '--bestofposition',
         type=str, 
         help="selecting the player of a certain position \
             that had the highest total score."
     )
 
-    parser.add_argument(
+    group.add_argument(
         '-tp', '--tposition',
         action='store_true',
         help="List of the top 10 players in a given year"
@@ -110,3 +111,4 @@ def main():
         get_best_player_of(args.bestofposition)
     else:
         print('Invalid command!')
+        parser.print_help()
