@@ -15,15 +15,17 @@ def header(title):
 class CartolaStats:
     '''Calculates the final data and provide the reports'''
 
-    def __init__(self):
+    def __init__(self, year=2016):
         '''Load data and parse into resultado_final'''
 
+        self.year = year
+
         resultados = pd.read_csv(path.join(BASE_DIR,
-                                           'cartola_csv/2016_scouts.csv'))
+                                           'cartola_csv/%d_scouts.csv' % year))
         jogadores = pd.read_csv(path.join(BASE_DIR,
-                                          'cartola_csv/2016_atletas.csv'))
+                                          'cartola_csv/%d_atletas.csv' % year))
         clubes = pd.read_csv(path.join(BASE_DIR,
-                                       'cartola_csv/2016_clubes.csv'))
+                                       'cartola_csv/%d_clubes.csv' % year))
         self.posicoes = pd.read_csv(path.join(BASE_DIR,
                                               'cartola_csv/posicoes.csv'))
 
@@ -42,8 +44,16 @@ class CartolaStats:
         resultados = pd.merge(resultados, clubes, on=["clube_id"])
         resultados = pd.merge(resultados, self.posicoes, on=["posicao_id"])
 
-        final = resultados[['nome', 'posicao', 'rodada', 'clube', 'participou',
-                            'pontuacao', 'media', 'preco', 'variacao']]
+        # Em alguns anos o total de jogos de um jogador recebeu
+        # um nome de coluna diferente
+        if 'participou' in resultados.columns:
+            total_jogos_col = 'participou'
+        else:
+            total_jogos_col = 'jogos_num'
+
+        final = resultados[['nome', 'posicao', 'rodada', 'clube',
+                            total_jogos_col, 'pontuacao', 'media', 'preco',
+                            'variacao']]
 
         agrupamente_pontos = final.groupby(['posicao', 'nome', 'clube'],
                                            as_index=False)
@@ -82,7 +92,7 @@ class CartolaStats:
 
     def top_for_position(self):
         '''Returns the best player for each position'''
-        header('Jogadores de cada posição que mais pontuaram no cartola de 2016')
+        header('Jogadores de cada posição que mais pontuaram no cartola de %d' % self.year)
         top_all_positions_player = [self.max_for_position(posicao) for posicao in self.posicoes['posicao']]
         resultado = pd.DataFrame()
         for i in range(0, len(top_all_positions_player)):
@@ -103,6 +113,14 @@ def main():
         prog='Cartola_Stats',
         description='CLI with data analysis of the game Cartola FC.'
     )
+
+    parser.add_argument(
+        '-y', '--year',
+        action='store',
+        help='Target year',
+        default=2016
+    )
+
     group = parser.add_mutually_exclusive_group()
 
     group.add_argument(
@@ -125,7 +143,7 @@ def main():
     )
 
     args = parser.parse_args()
-    stats = CartolaStats()
+    stats = CartolaStats(int(args.year))
 
     if args.top10:
         stats.top_all()
