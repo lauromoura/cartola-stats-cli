@@ -1,0 +1,5 @@
+include README.md
+include	'cartolastats/cartola_csv/2016_scouts.csv',
+include 'cartolastats/cartola_csv/2016_atletas.csv',
+include 'cartolastats/cartola_csv/posicoes.csv',
+include 'cartolastats/cartola_csv/2016_clubes.csv',
